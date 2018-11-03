@@ -20,23 +20,26 @@ class App extends Component {
         this.state = {
             videos: [],
             selectedVideo: null
-        }
+        };
 
-        //ytsearch put into constructor so setstate could be applied to it
+        this.videoSearch('surfboards');
+    };
+
+    videoSearch(term) {
         YTSearch(
-            {key: API_KEY, term: 'surfboards'}, (videos) =>{
+            {key: API_KEY, term: term}, (videos) =>{
                 this.setState({
                     videos: videos,
                     selectedVideo: videos[0]
                 })
                 // this.setState({ videos: videos })
-        });
+            });
     }
 
     render() {
         return (
             <React.Fragment>
-                <SearchBar />
+                <SearchBar onSearchTermChange={term => this.videoSearch(term)} />
                 <VideoDetail video={this.state.selectedVideo}/>
                 <VideoList
                     onVideoSelect={selectedVideo => this.setState({selectedVideo})}
